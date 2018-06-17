@@ -24,7 +24,8 @@
 }
 .calendar-table tr td{
   border: black 1px solid;
-  font-size: xx-large;
+  font-size: large;
+  font-family: cursive;
 }
 
 .red-team {
