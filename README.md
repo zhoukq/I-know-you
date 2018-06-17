@@ -3,9 +3,9 @@
 ### Installation:
 Note: This requires a recent version of NodeJS to work.
 ```shell
-git clone git@github.com:maxnachlinger/react-websocket-example.git
+git clone https://github.com/zhoukq/I-know-you.git
 
-cd react-websocket-example
+cd I know you
 cd client
 npm i
 
@@ -25,8 +25,3 @@ npm start
 ```
 The app runs at [http://your local ip address:3000]
 
-### Client tests:
-```shell
-cd client
-npm test
-```
