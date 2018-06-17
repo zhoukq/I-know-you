@@ -1,0 +1,48 @@
+/* 整体设置 */
+*{margin:0px;padding:0px;}
+
+.calendar-body-box{
+  border-bottom: 1px solid #ddd;
+}
+ 
+/* 设置日历表格样式 */
+.calendar-table{
+  width: 100%;
+  border-collapse: collapse;
+  text-align:center;
+}
+ 
+/* 表格行高 */
+.calendar-table tr{
+  height: 30px;
+  line-height: 30px;
+}
+
+.calendar-table tr td{
+  width: 20%;
+  height: 20vw;
+}
+.calendar-table tr td{
+  border: black 1px solid;
+  font-size: xx-large;
+}
+
+.red-team {
+    background: red;
+}
+
+.green-team {
+    background: green;
+}
+
+.useless {
+    background: yellow;
+}
+
+.bomb {
+  background: grey;
+}
+
+.playerSelected {
+  color: deepskyblue;
+}
