@@ -44,6 +44,7 @@
   background: grey;
 }
 
-.playerSelected {
-  color: deepskyblue;
+.upload {
+  width: 100%;
+  margin-top: 10%;
 }

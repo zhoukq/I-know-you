@@ -11,11 +11,13 @@ const { host, port } = require('../common/config')
 const logger = require('./logger')
 const chat = require('./chat')
 const { DIRECTOR, PLAYER, playerMask, directorMask } = require('../common/config')
+var bodyParser = require("body-parser");
 
 var fs = require('fs');
 
 const contentMap = new Map()
 const maskMap = new Map()
+const fileName = './resource.txt'
 
 const setup = () => {
   const env = process.env.NODE_ENV || 'development'
@@ -24,6 +26,9 @@ const setup = () => {
 
   const io = socketIo(server, {})
   chat.init(io, maskMap)
+
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
 
   app.use(helmet())
   const sessionMiddleware = session({
@@ -57,6 +62,17 @@ const setup = () => {
     if (!res.headersSent) {
       res.status(500).send()
     }
+  })
+
+  app.post('/data', function (req, res) {
+    const data = req.body.content.split(',').reduce((total, current) => { return total + ',' + current }, '')
+    fs.appendFile(fileName, data, function (err) {
+      if (err) {
+        console.log("文件写入失败")
+      } else {
+        res.send({});
+      }
+    })
   })
 
   app.get('/mask', function (req, res) {
@@ -101,7 +117,7 @@ const setup = () => {
         'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green',
         'useless', 'useless', 'useless', 'useless', 'useless', 'useless', 'useless', 'useless',
         'bomb'].sort((a, b) => Math.random() > .5 ? -1 : 1)
-      const data = fs.readFileSync('./resource.txt', 'utf8')
+      const data = fs.readFileSync(fileName, 'utf8')
       const contentArray = data.split(',')
       const contentSet = new Set()
       while (contentSet.size < 25) {

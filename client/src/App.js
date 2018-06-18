@@ -6,6 +6,7 @@ import * as actions from './actions'
 import bind from 'lodash.bind'
 import Matrix from './Matrix'
 import ConfiWindow from './ConfigWindow'
+import Data from './Data'
 
 const styles = {
   row: {
@@ -25,6 +26,7 @@ class App extends Component {
     this.roomOnChange = bind(this.roomOnChange, this)
     this.getContent = bind(this.getContent, this)
     this.getMask = bind(this.getMask, this)
+    this.saveResource = bind(this.saveResource, this)
   }
 
   componentWillMount() {
@@ -51,11 +53,16 @@ class App extends Component {
     this.props.actions.getContent(room)
   }
 
+  saveResource(data) {
+    this.props.actions.saveResource(data)
+  }
+
   render() {
     return (
       <div>
         <ConfiWindow roleOnChange={this.roleOnChange} roomOnChange={this.roomOnChange} getContent={this.getContent} getMask={this.getMask} />
         <Matrix updateMask={this.updateMask} />
+        <Data saveResource={this.saveResource} />
       </div >
     )
   }

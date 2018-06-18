@@ -43,3 +43,17 @@ export function getMask(room, role) {
       .then(json => { dispatch({ type: actionTypes.GET_MASK, payload: json }) })
   })
 }
+
+export function saveResource(data) {
+  console.log(JSON.stringify({ content: data })
+  return (dispatch => {
+    return fetch(`${config.uri}/data`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ content: data })
+    })
+  })
+}
