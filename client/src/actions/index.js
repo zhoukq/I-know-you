@@ -45,7 +45,6 @@ export function getMask(room, role) {
 }
 
 export function saveResource(data) {
-  console.log(JSON.stringify({ content: data })
   return (dispatch => {
     return fetch(`${config.uri}/data`, {
       method: 'POST',
