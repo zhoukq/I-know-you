@@ -30,7 +30,7 @@ export function addRoom(room) {
 
 export function getContent(room) {
   return (dispatch) => {
-    return fetch(`${config.uri}/content?room=${room}`)
+    return fetch(`content?room=${room}`)
       .then(response => response.json())
       .then(json => { dispatch({ type: actionTypes.GET_CONTENT, payload: json }) })
   }
@@ -38,7 +38,7 @@ export function getContent(room) {
 
 export function getMask(room, role) {
   return (dispatch => {
-    return fetch(`${config.uri}/mask?room=${room}&role=${role}`)
+    return fetch(`mask?room=${room}&role=${role}`)
       .then(response => response.json())
       .then(json => { dispatch({ type: actionTypes.GET_MASK, payload: json }) })
   })
@@ -46,7 +46,7 @@ export function getMask(room, role) {
 
 export function saveResource(data) {
   return (dispatch => {
-    return fetch(`${config.uri}/data`, {
+    return fetch('data', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

@@ -32,7 +32,7 @@ module.exports = {
     }),
     // writes out our index.html
     new HtmlWebpackPlugin({
-      title: 'React/Redux Websocket Example',
+      title: 'I know you',
       template: path.join(__dirname, '/index.html.ejs'),
       inject: true,
       appMountId: 'root',
