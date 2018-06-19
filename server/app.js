@@ -75,6 +75,20 @@ const setup = () => {
     })
   })
 
+  app.post('/mask', function (req, res) {
+    if (req.body.room != undefined) {
+      const room = req.body.room.toString()
+      const flag = req.body.flag
+      if(flag==="reset"){
+        maskMap.set(room.toString(), { 'mask': playerMask })
+      } else{
+        maskMap.set(room.toString(), { 'mask': directorMask })
+      }
+      res.send(maskMap.get(room))
+      return
+    }
+  })
+
   app.get('/mask', function (req, res) {
     if (req.query.room != undefined) {
       const room = req.query.room.toString()

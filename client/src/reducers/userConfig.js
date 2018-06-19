@@ -39,6 +39,13 @@ const userConfig = (state, action) => {
             room: state.room
         }
     }
+    if(action.type == actionTypes.RESET_MASK){
+        return {
+            role: state.role,
+            mask: Immutable.fromJS(action.payload.mask),
+            room: state.room
+        }
+    }
     return state
 }
 

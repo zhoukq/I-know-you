@@ -103,8 +103,7 @@ const mapStateToProps = (state) => {
         content: state.get('content'),
         role: state.get('userConfig').role,
         room: state.get('userConfig').room,
-        mask: state.get('userConfig').mask,
-        playerMask: state.get('userConfig').playerMask
+        mask: state.get('userConfig').mask
     }
 }
 
