@@ -68,7 +68,7 @@ const setup = () => {
     const data = req.body.content.split(',').reduce((total, current) => { return total + ',' + current }, '')
     fs.appendFile(fileName, data, function (err) {
       if (err) {
-        console.log("文件写入失败")
+        console.log("fail to write file")
       } else {
         res.send({});
       }
@@ -77,20 +77,14 @@ const setup = () => {
 
   app.get('/mask', function (req, res) {
     if (req.query.room != undefined) {
-      const room = req.query.room
+      const room = req.query.room.toString()
       if (maskMap.has(room)) {
         res.send(maskMap.get(room))
         return
       }
-      const role = req.query.role
-      if (role === DIRECTOR) {
-        maskMap.set(room.toString(), { 'mask': directorMask })
-        res.send(maskMap.get(room))
-      }
-      if (role === PLAYER) {
-        maskMap.set(room.toString(), { 'mask': playerMask })
-        res.send(maskMap.get(room))
-      }
+      maskMap.set(room.toString(), { 'mask': playerMask })
+      res.send(maskMap.get(room))
+
       return
     }
   })
@@ -108,7 +102,7 @@ const setup = () => {
     //data example
     //a,b,c,d,e,f,g,h,i,j,k
     if (req.query.room != undefined) {
-      const room = req.query.room
+      const room = req.query.room.toString()
       if (contentMap.has(room)) {
         res.send(contentMap.get(room))
         return

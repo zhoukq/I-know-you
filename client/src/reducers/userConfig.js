@@ -18,14 +18,6 @@ const userConfig = (state, action) => {
     }
     if (action.type == messageTypes.updateMask) {
         if (action.payload.room == state.room) {
-            if (state.role === DIRECTOR) {
-                return {
-                    role: state.role,
-                    mask: state.mask,
-                    room: state.room,
-                    playerMask: Immutable.fromJS(action.payload.mask)
-                }
-            }
             return {
                 role: state.role,
                 mask: Immutable.fromJS(action.payload.mask),
@@ -41,14 +33,6 @@ const userConfig = (state, action) => {
         }
     }
     if(action.type == actionTypes.GET_MASK){
-        if (state.role === DIRECTOR) {
-            return {
-                role: state.role,
-                mask: Immutable.fromJS(action.payload.mask),
-                room: state.room,
-                playerMask: Immutable.fromJS(action.payload.mask)
-            }
-        }
         return {
             role: state.role,
             mask: Immutable.fromJS(action.payload.mask),

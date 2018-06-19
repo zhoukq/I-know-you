@@ -11,7 +11,10 @@ const {
 const onUpdateMask = ({ io, socket, data, maskMap }) => {
   const event = updateMask
   const { user } = socket
-  const { mask, room } = data
+  let { mask, room } = data
+  if (maskMap.has(room.toString())) {
+    mask = maskMap.get(room.toString()).mask.map((v, index) => v && mask[index])
+  }
   maskMap.set(room.toString(), { 'mask': mask })
   logger.info({ mask, event, user })
   return io.sockets.emit(updateMask, {
@@ -55,7 +58,7 @@ const addListenersToSocket = ({ io, socket, maskMap }) => {
   if (user) {
     handleReconnect({ socket, user })
   }
-  
+
   socket.on(updateMask, (data) => onUpdateMask({ io, socket, data, maskMap }))
   socket.on('disconnect', () => onDisconnect({ io, socket }))
 }
