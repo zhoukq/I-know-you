@@ -14,7 +14,6 @@ export default class Data extends Component {
         };
     }
     handleSaveData = (e) => {
-        console.log(this.state.resourceContent)
         this.props.saveResource(this.state.resourceContent)
         this.setState({
             visible: false,

@@ -23,25 +23,28 @@
   height: 20vw;
 }
 .calendar-table tr td{
-  border: black 1px solid;
+  border: white 6px solid;
   font-size: large;
-  font-family: cursive;
 }
 
 .red-team {
-    background: red;
+    background: #FF4136;
 }
 
 .green-team {
-    background: green;
+    background: #2ECC40;
 }
 
 .useless {
-    background: yellow;
+    background: #FFDC00;
 }
 
 .bomb {
-  background: grey;
+  background: #aaa;
+}
+
+.selected{
+  opacity:0.3;
 }
 
 .upload {

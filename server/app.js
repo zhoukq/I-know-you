@@ -84,9 +84,18 @@ const setup = () => {
       }
       maskMap.set(room.toString(), { 'mask': playerMask })
       res.send(maskMap.get(room))
-
       return
     }
+  })
+
+  /**
+   * refresh content
+   */
+  app.post('/content',function(req,res){
+    const room = req.body.room.toString()
+    const content = getContent()
+    contentMap.set(room, content)
+    res.send(content)
   })
 
   app.get('/content', function (req, res) {
@@ -107,22 +116,8 @@ const setup = () => {
         res.send(contentMap.get(room))
         return
       }
-      const mask = ['red', 'red', 'red', 'red', 'red', 'red', 'red', 'red',
-        'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green',
-        'useless', 'useless', 'useless', 'useless', 'useless', 'useless', 'useless', 'useless',
-        'bomb'].sort((a, b) => Math.random() > .5 ? -1 : 1)
-      const data = fs.readFileSync(fileName, 'utf8')
-      const contentArray = data.split(',')
-      const contentSet = new Set()
-      while (contentSet.size < 25) {
-        const num = Math.floor(Math.random() * (contentArray.length))
-        contentSet.add(
-          contentArray[num]
-        )
-      }
-      responseContent = [...contentSet].map((target, index) => { return { 'text': target, 'team': mask[index] } })
-      contentMap.set(room, responseContent)
-      res.send(responseContent)
+      contentMap.set(room, getContent())
+      res.send(contentMap.get(room))
     }
   })
 
@@ -135,6 +130,23 @@ const setup = () => {
       return resolve(server)
     })
   })
+}
+
+function getContent(){
+  const mask = ['red', 'red', 'red', 'red', 'red', 'red', 'red', 'red',
+        'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green',
+        'green', 'useless', 'useless', 'useless', 'useless', 'useless', 'useless', 'useless',
+        'bomb'].sort((a, b) => Math.random() > .5 ? -1 : 1)
+      const data = fs.readFileSync(fileName, 'utf8')
+      const contentArray = data.split(',')
+      const contentSet = new Set()
+      while (contentSet.size < 25) {
+        const num = Math.floor(Math.random() * (contentArray.length))
+        contentSet.add(
+          contentArray[num]
+        )
+      }
+  return [...contentSet].map((target, index) => { return { 'text': target, 'team': mask[index] } })
 }
 
 

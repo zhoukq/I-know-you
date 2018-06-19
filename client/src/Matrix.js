@@ -41,7 +41,7 @@ class Matrix extends Component {
 
     handleMask(role, text, num) {
         if (this.props.mask != undefined && this.props.mask.get(num) == false) {
-            return role === DIRECTOR ? `[${text}]` : text
+            return role === DIRECTOR ? `selected ${text}` : text
         }
         return text
     }
@@ -72,13 +72,13 @@ class Matrix extends Component {
                                 let key = i * 5 + j;
                                 if (this.props.mask.get(key) === false || this.props.role === DIRECTOR) {
                                     if (v.team === 'red') {
-                                        return <td key={key} id={key} className='red-team'>{this.handleMask(this.props.role, v.text, key)}</td>
+                                        return <td key={key} id={key} className={this.handleMask(this.props.role,'red-team',key)}>{v.text}</td>
                                     } else if (v.team === 'green') {
-                                        return <td key={key} id={key} className='green-team'>{this.handleMask(this.props.role, v.text, key)}</td>
+                                        return <td key={key} id={key} className={this.handleMask(this.props.role,'green-team',key)}>{v.text}</td>
                                     } else if (v.team === 'useless') {
-                                        return <td key={key} id={key} className='useless'>{this.handleMask(this.props.role, v.text, key)}</td>
+                                        return <td key={key} id={key} className={this.handleMask(this.props.role,'useless',key)}>{v.text}</td>
                                     } else {
-                                        return <td key={key} id={key} className='bomb'>{this.handleMask(this.props.role, v.text, key)}</td>
+                                        return <td key={key} id={key} className={this.handleMask(this.props.role,'bomb',key)}>{v.text}</td>
                                     }
                                 } else {
                                     return <td key={key} id={key} onClick={this.onBlankClick.bind(this)}>{v.text}</td>
