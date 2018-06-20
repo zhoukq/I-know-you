@@ -5,7 +5,9 @@ const host = '10.197.113.106'
 const messageTypes = [
   'messageAdded',
   'userRefreshed',
-  'updateMask'
+  'updateMask',
+  'reloadContent',
+  'resetMask'
 ].reduce((accum, msg) => {
   accum[ msg ] = msg
   return accum

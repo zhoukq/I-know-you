@@ -2,10 +2,12 @@ const uuid = require('uuid')
 const config = require('../../common/config')
 const logger = require('../logger')
 const app = require('../app')
-const { messageTypes } = config
+const { messageTypes,playerMask } = config
 
 const {
-  updateMask
+  updateMask,
+  reloadContent,
+  resetMask
 } = messageTypes
 
 const onUpdateMask = ({ io, socket, data, maskMap }) => {
@@ -19,6 +21,35 @@ const onUpdateMask = ({ io, socket, data, maskMap }) => {
   logger.info({ mask, event, user })
   return io.sockets.emit(updateMask, {
     'mask': mask,
+    'room': room
+  })
+}
+
+const onReloadContent = ({ io, socket, data, contentMap, getContent }) => {
+  const event = reloadContent
+  const { user } = socket
+  let { room } = data
+
+  const content = getContent()
+  contentMap.set(room.toString(), content)
+
+  logger.info({ content, event, user })
+  return io.sockets.emit(reloadContent, {
+    'content': content,
+    'room': room
+  })
+}
+
+const onResetMask = ({ io, socket, data, maskMap }) =>{
+  const event = resetMask
+  const { user } = socket
+  let { room } = data
+
+  maskMap.set(room.toString(), { 'mask': playerMask })
+
+  logger.info({ playerMask, event, user })
+  return io.sockets.emit(resetMask, {
+    'mask': playerMask,
     'room': room
   })
 }
@@ -53,16 +84,18 @@ const handleReconnect = ({ socket, user }) => {
   return addUser({ socket, user })
 }
 
-const addListenersToSocket = ({ io, socket, maskMap }) => {
+const addListenersToSocket = ({ io, socket, maskMap, contentMap, getContent }) => {
   const user = socket.user
   if (user) {
     handleReconnect({ socket, user })
   }
 
   socket.on(updateMask, (data) => onUpdateMask({ io, socket, data, maskMap }))
+  socket.on(reloadContent, (data) => onReloadContent({ io, socket, data, maskMap, contentMap, getContent }))
+  socket.on(resetMask,(data) => onResetMask({ io, socket, data, maskMap }))
   socket.on('disconnect', () => onDisconnect({ io, socket }))
 }
 
-module.exports.init = (io, maskMap) => {
-  io.on('connection', (socket) => addListenersToSocket({ io, socket, maskMap }))
+module.exports.init = (io, maskMap, contentMap, getContent) => {
+  io.on('connection', (socket) => addListenersToSocket({ io, socket, maskMap, contentMap, getContent }))
 }

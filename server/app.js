@@ -19,13 +19,30 @@ const contentMap = new Map()
 const maskMap = new Map()
 const fileName = './resource.txt'
 
+function getContent() {
+  const mask = ['red', 'red', 'red', 'red', 'red', 'red', 'red', 'red',
+    'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green',
+    'green', 'useless', 'useless', 'useless', 'useless', 'useless', 'useless', 'useless',
+    'bomb'].sort((a, b) => Math.random() > .5 ? -1 : 1)
+  const data = fs.readFileSync(fileName, 'utf8')
+  const contentArray = data.split(',')
+  const contentSet = new Set()
+  while (contentSet.size < 25) {
+    const num = Math.floor(Math.random() * (contentArray.length))
+    contentSet.add(
+      contentArray[num]
+    )
+  }
+  return [...contentSet].map((target, index) => { return { 'text': target, 'team': mask[index] } })
+}
+
 const setup = () => {
   const env = process.env.NODE_ENV || 'development'
   const app = express()
   const server = createServer(app)
 
   const io = socketIo(server, {})
-  chat.init(io, maskMap)
+  chat.init(io, maskMap, contentMap, getContent)
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -79,9 +96,9 @@ const setup = () => {
     if (req.body.room != undefined) {
       const room = req.body.room.toString()
       const flag = req.body.flag
-      if(flag==="reset"){
+      if (flag === "reset") {
         maskMap.set(room.toString(), { 'mask': playerMask })
-      } else{
+      } else {
         maskMap.set(room.toString(), { 'mask': directorMask })
       }
       res.send(maskMap.get(room))
@@ -102,16 +119,6 @@ const setup = () => {
     }
   })
 
-  /**
-   * refresh content
-   */
-  app.post('/content',function(req,res){
-    const room = req.body.room.toString()
-    const content = getContent()
-    contentMap.set(room, content)
-    res.send(content)
-  })
-
   app.get('/content', function (req, res) {
     //generate team by role
     //example:
@@ -127,11 +134,11 @@ const setup = () => {
     if (req.query.room != undefined) {
       const room = req.query.room.toString()
       if (contentMap.has(room)) {
-        res.send(contentMap.get(room))
+        res.send({ 'room': room,'content':contentMap.get(room)})
         return
       }
       contentMap.set(room, getContent())
-      res.send(contentMap.get(room))
+      res.send({ 'room': room, 'content': contentMap.get(room) })
     }
   })
 
@@ -145,25 +152,6 @@ const setup = () => {
     })
   })
 }
-
-function getContent(){
-  const mask = ['red', 'red', 'red', 'red', 'red', 'red', 'red', 'red',
-        'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green',
-        'green', 'useless', 'useless', 'useless', 'useless', 'useless', 'useless', 'useless',
-        'bomb'].sort((a, b) => Math.random() > .5 ? -1 : 1)
-      const data = fs.readFileSync(fileName, 'utf8')
-      const contentArray = data.split(',')
-      const contentSet = new Set()
-      while (contentSet.size < 25) {
-        const num = Math.floor(Math.random() * (contentArray.length))
-        contentSet.add(
-          contentArray[num]
-        )
-      }
-  return [...contentSet].map((target, index) => { return { 'text': target, 'team': mask[index] } })
-}
-
-
 
 const onError = (err) => {
   logger.error(err)

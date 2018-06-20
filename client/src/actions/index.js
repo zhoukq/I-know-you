@@ -57,33 +57,15 @@ export function saveResource(data) {
   })
 }
 
-
 export function reloadContent(room) {
-  return (dispatch => {
-    return fetch('content', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ room: room })
-    })
-    .then(response => response.json())
-    .then(json => { dispatch({ type: actionTypes.RELOAD_CONTENT, payload: json }) })
-  })
+  return (dispatch, getState, { emit }) => {
+    emit(messageTypes.reloadContent, { 'content':'','room': room })
+  }
 }
 
 export function resetMask(room) {
-  return (dispatch => {
-    return fetch('mask', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ room: room, flag: "reset" })
-    })
-    .then(response => response.json())
-    .then(json => { dispatch({ type: actionTypes.RESET_MASK, payload: json }) })
-  })
+  return (dispatch, getState, { emit }) => {
+    emit(messageTypes.resetMask, { 'room': room })
+  }
 }
+

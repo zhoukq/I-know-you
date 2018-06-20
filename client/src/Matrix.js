@@ -100,7 +100,7 @@ class Matrix extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        content: state.get('content'),
+        content: state.get('userConfig').content,
         role: state.get('userConfig').role,
         room: state.get('userConfig').room,
         mask: state.get('userConfig').mask
