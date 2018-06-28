@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const pkg = require('../package.json')
 
 const srcDir = path.join(__dirname, '/../src')
-const outputDir = path.join(__dirname, '/../../server/public')
+const outputDir = path.join(__dirname, '/../output')
 
 module.exports = {
   // root directory used to resolve paths

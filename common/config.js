@@ -1,5 +1,5 @@
 const port = 3000
-const host = '10.197.113.106'
+const host = 'localhost'
 
 // makes an object of the form {userJoined: 'userJoined'}
 const messageTypes = [

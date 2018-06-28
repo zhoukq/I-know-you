@@ -18,6 +18,7 @@
     "socket.io-client": "^2.0.3"
   },
   "devDependencies": {
+    "copyfiles": "^2.0.0",
     "babel-core": "^6.26.0",
     "babel-jest": "^21.0.0",
     "babel-loader": "^7.1.2",
@@ -39,8 +40,9 @@
   "scripts": {
     "lint": "standard --verbose | snazzy",
     "test": "npm run lint && jest",
-    "start": "rimraf ../server/public/* && webpack --progress --colors --watch --display-error-details --config ./build/webpack.config.dev.js",
-    "build": "rimraf ../server/public/* && webpack --progress --colors --display-error-details --bail --config ./build/webpack.config.prod.js"
+    "copy": "rimraf ../server/public/* && copyfiles ./output/* ../server/public/",
+    "start": "webpack --progress --colors --watch --display-error-details --config ./build/webpack.config.dev.js",
+    "build": "webpack --progress --colors --display-error-details --bail --config ./build/webpack.config.prod.js"
   },
   "standard": {
     "globals": [
