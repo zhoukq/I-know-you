@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
-import {messageTypes, uri} from '../../../common/config'
-const socket = io(uri)
+import { messageTypes } from '../../../common/config'
+const socket = io(window.location.href)
 
 const init = (store) => {
   // add listeners to socket messages so we can re-dispatch them as actions
