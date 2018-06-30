@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes'
-import { messageTypes, DIRECTOR, PLAYER, playerMask, directorMask } from '../../../common/config'
+import { messageTypes, DIRECTOR, PLAYER, playerMask, directorMask } from '../common/config'
 import Immutable, { List } from 'immutable'
 
 const userConfig = (state, action) => {

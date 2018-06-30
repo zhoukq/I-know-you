@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-import { messageTypes } from '../../../common/config'
+import { messageTypes } from '../common/config'
 const socket = io(window.location.href)
 
 const init = (store) => {

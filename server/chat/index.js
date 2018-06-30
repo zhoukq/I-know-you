@@ -1,5 +1,5 @@
 const uuid = require('uuid')
-const config = require('../../common/config')
+const config = require('../common/config')
 const logger = require('../logger')
 const app = require('../app')
 const { messageTypes,playerMask } = config

@@ -3,5 +3,5 @@ node_modules
 *.log
 .idea
 server/data/
-server/public/
+server/output/
 client/output

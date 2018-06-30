@@ -6,7 +6,7 @@ import { Radio } from 'antd';
 import { InputNumber } from 'antd';
 import { Row, Col } from 'antd';
 import { Alert } from 'antd';
-import * as config from '../../common/config'
+import * as config from './common/config'
 const { DIRECTOR, PLAYER } = config
 
 const RadioButton = Radio.Button;

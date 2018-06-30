@@ -7,10 +7,9 @@ const helmet = require('helmet')
 const session = require('express-session')
 const LevelStore = require('level-session-store')(session)
 const config = require('./config')
-const { host, port } = require('../common/config')
 const logger = require('./logger')
 const chat = require('./chat')
-const { DIRECTOR, PLAYER, playerMask, directorMask } = require('../common/config')
+const { DIRECTOR, PLAYER, playerMask, directorMask, host, port } = require('./common/config')
 var bodyParser = require("body-parser");
 
 var fs = require('fs');
@@ -71,7 +70,7 @@ const setup = () => {
   })
 
   // for serving the client
-  app.use(express.static('public'))
+  app.use(express.static('output'))
 
   app.use((err, req, res, next) => {
     logger.error({ err })
@@ -134,7 +133,7 @@ const setup = () => {
     if (req.query.room != undefined) {
       const room = req.query.room.toString()
       if (contentMap.has(room)) {
-        res.send({ 'room': room,'content':contentMap.get(room)})
+        res.send({ 'room': room, 'content': contentMap.get(room) })
         return
       }
       contentMap.set(room, getContent())

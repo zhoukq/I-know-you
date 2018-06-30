@@ -1,4 +1,4 @@
-import * as config from '../../../common/config'
+import * as config from '../common/config'
 import * as actionTypes from '../actions/actionTypes'
 import fetch from 'isomorphic-fetch'
 const { messageTypes } = config

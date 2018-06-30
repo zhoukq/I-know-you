@@ -16,7 +16,7 @@ module.exports = {
     // everything that's in dependencies (not a devDependencies) in our package.json file will be bundled into vendor.js
     vendor: Object.keys(pkg.dependencies)
   },
-  // we'll output everything to /server/public
+  // we'll output everything to /output
   output: {
     path: outputDir,
     filename: 'app.min-[hash:6].js' // the [hash:6] bit here helps us control browser caching

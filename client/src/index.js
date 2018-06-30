@@ -9,7 +9,7 @@ import { createLogger } from 'redux-logger'
 import App from './App'
 import rootReducer from './reducers'
 import { init as websocketInit, emit } from './actions/websocket'
-import { playerMask, directorMask } from '../../common/config'
+import { playerMask, directorMask } from './common/config'
 import './index.css'
 import Immutable from 'immutable'
 

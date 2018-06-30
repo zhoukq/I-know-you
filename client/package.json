@@ -40,7 +40,7 @@
   "scripts": {
     "lint": "standard --verbose | snazzy",
     "test": "npm run lint && jest",
-    "copy": "rimraf ../server/public/* && copyfiles ./output/* ../server/public/",
+    "copy": "rimraf ../server/output/* && copyfiles ./output/* ../server/ && rimraf ../server/common/* && copyfiles -f ./src/common/*.js ../server/common",
     "start": "webpack --progress --colors --watch --display-error-details --config ./build/webpack.config.dev.js",
     "build": "webpack --progress --colors --display-error-details --bail --config ./build/webpack.config.prod.js"
   },

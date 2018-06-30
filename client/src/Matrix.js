@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import 'antd/dist/antd.css'
 import { Modal } from 'antd'
-import * as config from '../../common/config'
+import * as config from './common/config'
 const { DIRECTOR, PLAYER } = config
 
 
