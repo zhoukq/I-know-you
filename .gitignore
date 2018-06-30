@@ -4,4 +4,4 @@ node_modules
 .idea
 server/data/
 server/output/
-client/output
+client/
