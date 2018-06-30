@@ -14,7 +14,9 @@ var bodyParser = require("body-parser");
 
 var fs = require('fs');
 
+//<room,content>
 const contentMap = new Map()
+//<room,mask>
 const maskMap = new Map()
 const fileName = './resource.txt'
 

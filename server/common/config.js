@@ -7,7 +7,9 @@ const messageTypes = [
   'userRefreshed',
   'updateMask',
   'reloadContent',
-  'resetMask'
+  'resetMask',
+  'enterRoom',
+  'joinRequested'
 ].reduce((accum, msg) => {
   accum[ msg ] = msg
   return accum
