@@ -29,3 +29,7 @@ npm start
 ```
 The app runs at [http://iky.takashiro.me:3000]
 
+### Update
+Client side has already move to [here](https://github.com/zhoukq/I-know-you)
+To run the whole project from web to server, you should git clone https://github.com/zhoukq/I-know-you-web.git and override the code in client folder.
+
