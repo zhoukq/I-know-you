@@ -14,14 +14,18 @@ npm i
 ```
 
 ### Running this app:
+####Mac 
+add 127.0.0.1 iky.takashiro.me to your /etc/host file
+
 ```shell
 # start a webpack dev watch build
 cd client
-npm start
+npm run start
+npm run copy
 
 # start the server
 cd ../server
 npm start
 ```
-The app runs at [http://your local ip address:3000]
+The app runs at [http://iky.takashiro.me:3000]
 
