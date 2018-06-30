@@ -14,7 +14,7 @@ npm i
 ```
 
 ### Running this app:
-####Mac 
+#### Mac 
 add 127.0.0.1 iky.takashiro.me to your /etc/host file
 
 ```shell
