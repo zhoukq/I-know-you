@@ -19,6 +19,9 @@ const GET_MATRIX_CONTENT = 'GET_MATRIC_CONTENT'
 
 const DIRECTOR = 'director'
 const PLAYER = 'player'
+const RED = 'red'
+const GREEN = 'green'
+const YELLOW = 'yellow'
 
 const playerMask = [
   true,true,true,true,true,
@@ -45,5 +48,8 @@ module.exports = {
   directorMask,
   DIRECTOR,
   PLAYER,
+  RED,
+  GREEN,
+  YELLOW,
   uri: `http://${host}:${port}`
 }

@@ -61,8 +61,8 @@ const onResetMask = ({ io, socket, data, maskMap }) => {
 //so the room will be override
 const onEnterRoom = ({ io, socket, data, maskMap }) => {
   const event = enterRoom
-  const { room, role } = data
-  const user = { 'room': room, 'role': role }
+  const { room, role, team } = data
+  const user = { 'room': room, 'role': role, 'team': team }
   socket.user = user
   socket.request.session.user = user
   socket.request.session.save() // we have to do this explicitly
@@ -70,14 +70,15 @@ const onEnterRoom = ({ io, socket, data, maskMap }) => {
   logger.info({ playerMask, event })
   return io.sockets.emit(enterRoom, {
     'room': room,
-    'role': role
+    'role': role,
+    'team': team
   })
 }
 
 const onJoinRequested = ({ io, socket, maskMap, contentMap }) => {
   const event = joinRequested
   const user = socket.user
-  
+
   if (user && user.room && user.role && maskMap.has(user.room.toString()) && contentMap.has(user.room.toString())) {
     return io.sockets.emit(joinRequested, {
       'room': user.room,
@@ -108,12 +109,12 @@ const onDisconnect = ({ io, socket }) => {
 const handleReconnect = ({ io, socket, user, maskMap, contentMap }) => {
   logger.info({ user }, 'User refreshed')
 
-  return onJoinRequested({io, socket, maskMap, contentMap})
+  return onJoinRequested({ io, socket, maskMap, contentMap })
 }
 
 const addListenersToSocket = ({ io, socket, maskMap, contentMap, getContent }) => {
   const user = socket.user
-  
+
   //add reconnect event here
   //replace user with room number
   //we need add new action here, when user enter a room number,we need socket to 
