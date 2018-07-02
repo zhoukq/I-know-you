@@ -79,7 +79,7 @@ const onJoinRequested = ({ io, socket, maskMap, contentMap }) => {
   const user = socket.user
   
   if (user && user.room && user.role && maskMap.has(user.room.toString()) && contentMap.has(user.room.toString())) {
-    return io.sockets.emit(joinRequested, {
+    return socket.emit(joinRequested, {
       'room': user.room,
       'role': user.role,
       'content': contentMap.get(user.room.toString()),
@@ -87,7 +87,7 @@ const onJoinRequested = ({ io, socket, maskMap, contentMap }) => {
       'joined': true
     })
   }
-  return io.sockets.emit(joinRequested, { 'joined': false })
+  return socket.emit(joinRequested, { 'joined': false })
 }
 
 const onDisconnect = ({ io, socket }) => {
