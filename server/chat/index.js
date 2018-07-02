@@ -9,7 +9,8 @@ const {
   updateMask,
   reloadContent,
   resetMask,
-  enterRoom
+  enterRoom,
+  clickWrongBox
 } = messageTypes
 
 const onUpdateMask = ({ io, socket, data, maskMap }) => {
@@ -56,9 +57,6 @@ const onResetMask = ({ io, socket, data, maskMap }) => {
   })
 }
 
-//there is a bug here, one user may have several browser page
-//every page has a room, but they share same socket
-//so the room will be override
 const onEnterRoom = ({ io, socket, data, maskMap }) => {
   const event = enterRoom
   const { room, role, team } = data
@@ -67,7 +65,7 @@ const onEnterRoom = ({ io, socket, data, maskMap }) => {
   socket.request.session.user = user
   socket.request.session.save() // we have to do this explicitly
 
-  logger.info({ playerMask, event })
+  logger.info({ user, event })
   return io.sockets.emit(enterRoom, {
     'room': room,
     'role': role,
@@ -78,17 +76,31 @@ const onEnterRoom = ({ io, socket, data, maskMap }) => {
 const onJoinRequested = ({ io, socket, maskMap, contentMap }) => {
   const event = joinRequested
   const user = socket.user
-
+  logger.info({ user, event })
   if (user && user.room && user.role && maskMap.has(user.room.toString()) && contentMap.has(user.room.toString())) {
-    return io.sockets.emit(joinRequested, {
+    return socket.emit(joinRequested, {
       'room': user.room,
       'role': user.role,
+      'team': user.team,
       'content': contentMap.get(user.room.toString()),
       'mask': maskMap.get(user.room.toString()).mask,
       'joined': true
     })
   }
-  return io.sockets.emit(joinRequested, { 'joined': false })
+  return socket.emit(joinRequested, { 'joined': false })
+}
+
+const onClickWrongBox = ({ io, socket, data }) => {
+  const event = clickWrongBox
+  const user = socket.user
+  const { room, team } = data
+  logger.info({ room, team, event })
+  if (user && user.room && room == user.room) {
+    return io.sockets.emit(clickWrongBox, {
+      'room': room,
+      'team': team
+    })
+  }
 }
 
 const onDisconnect = ({ io, socket }) => {
@@ -114,7 +126,6 @@ const handleReconnect = ({ io, socket, user, maskMap, contentMap }) => {
 
 const addListenersToSocket = ({ io, socket, maskMap, contentMap, getContent }) => {
   const user = socket.user
-
   //add reconnect event here
   //replace user with room number
   //we need add new action here, when user enter a room number,we need socket to 
@@ -127,6 +138,7 @@ const addListenersToSocket = ({ io, socket, maskMap, contentMap, getContent }) =
   socket.on(resetMask, (data) => onResetMask({ io, socket, data, maskMap }))
   socket.on(enterRoom, (data) => onEnterRoom({ io, socket, data }))
   socket.on(joinRequested, (data) => onJoinRequested({ io, socket, maskMap, contentMap }))
+  socket.on(clickWrongBox, (data) => onClickWrongBox({ io, socket, data }))
   socket.on('disconnect', () => onDisconnect({ io, socket }))
 }
 

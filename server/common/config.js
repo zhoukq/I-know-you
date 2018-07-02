@@ -1,5 +1,5 @@
 const port = 3000
-const host = 'iky.takashiro.me'
+const host = '192.168.1.103'
 
 // makes an object of the form {userJoined: 'userJoined'}
 const messageTypes = [
@@ -9,7 +9,8 @@ const messageTypes = [
   'reloadContent',
   'resetMask',
   'enterRoom',
-  'joinRequested'
+  'joinRequested',
+  'clickWrongBox'
 ].reduce((accum, msg) => {
   accum[ msg ] = msg
   return accum
