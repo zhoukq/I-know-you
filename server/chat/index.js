@@ -22,7 +22,7 @@ const onUpdateMask = ({ io, socket, data, maskMap }) => {
   }
   maskMap.set(room.toString(), { 'mask': mask })
   logger.info({ mask, event, user })
-  return io.sockets.emit(updateMask, {
+  return io.sockets.to(room.toString()).emit(updateMask, {
     'mask': mask,
     'room': room
   })
@@ -37,7 +37,7 @@ const onReloadContent = ({ io, socket, data, contentMap, getContent }) => {
   contentMap.set(room.toString(), content)
 
   logger.info({ content, event, user })
-  return io.sockets.emit(reloadContent, {
+  return io.sockets.to(room.toString()).emit(reloadContent, {
     'content': content,
     'room': room
   })
@@ -51,7 +51,7 @@ const onResetMask = ({ io, socket, data, maskMap }) => {
   maskMap.set(room.toString(), { 'mask': playerMask })
 
   logger.info({ playerMask, event, user })
-  return io.sockets.emit(resetMask, {
+  return io.sockets.to(room.toString()).emit(resetMask, {
     'mask': playerMask,
     'room': room
   })
@@ -65,8 +65,9 @@ const onEnterRoom = ({ io, socket, data, maskMap }) => {
   socket.request.session.user = user
   socket.request.session.save() // we have to do this explicitly
 
+  socket.join(room.toString())
   logger.info({ user, event })
-  return io.sockets.emit(enterRoom, {
+  return io.sockets.to(room.toString()).emit(enterRoom, {
     'room': room,
     'role': role,
     'team': team
@@ -78,6 +79,7 @@ const onJoinRequested = ({ io, socket, maskMap, contentMap }) => {
   const user = socket.user
   logger.info({ user, event })
   if (user && user.room && user.role && maskMap.has(user.room.toString()) && contentMap.has(user.room.toString())) {
+    socket.join(user.room.toString())
     return socket.emit(joinRequested, {
       'room': user.room,
       'role': user.role,
@@ -96,7 +98,7 @@ const onClickWrongBox = ({ io, socket, data }) => {
   const { room, team } = data
   logger.info({ room, team, event })
   if (user && user.room && room == user.room) {
-    return io.sockets.emit(clickWrongBox, {
+    return io.sockets.to(room.toString()).emit(clickWrongBox, {
       'room': room,
       'team': team
     })
@@ -108,6 +110,7 @@ const onDisconnect = ({ io, socket }) => {
   if (!user) {
     return
   }
+  socket.leave(user.room.toString())
 
   // this disconnect might be a refresh, give it a moment to make sure the user isn't coming back
   // disconnectedUsers[user.id] = setTimeout(() => {
