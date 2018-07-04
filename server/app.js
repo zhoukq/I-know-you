@@ -55,7 +55,7 @@ const setup = () => {
     saveUninitialized: true,
     cookie: { secure: env !== 'development' },
     // for larger, distributed, APIs use redis or something else instead
-    store: new LevelStore(config.sessionStorePath)
+    //store: new LevelStore(config.sessionStorePath)
   })
   app.use(sessionMiddleware)
 
