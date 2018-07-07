@@ -72,7 +72,7 @@ const setup = () => {
   })
 
   // for serving the client
-  app.use(express.static('output'))
+  app.use(express.static('../client/output'))
 
   app.use((err, req, res, next) => {
     logger.error({ err })
