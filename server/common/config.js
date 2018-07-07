@@ -1,5 +1,5 @@
 const port = 3000
-const host = 'iky.takashiro.me'
+const host = '0.0.0.0'
 
 // makes an object of the form {userJoined: 'userJoined'}
 const messageTypes = [
