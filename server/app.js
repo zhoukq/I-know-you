@@ -82,7 +82,7 @@ const setup = () => {
     }
   })
 
-  app.post('/data', function (req, res) {
+  app.post('/api/data', function (req, res) {
     const data = req.body.content.split(',').reduce((total, current) => { return total + ',' + current }, '')
     fs.appendFile(fileName, data, function (err) {
       if (err) {
@@ -93,7 +93,7 @@ const setup = () => {
     })
   })
 
-  app.post('/mask', function (req, res) {
+  app.post('/api/mask', function (req, res) {
     if (req.body.room != undefined) {
       const room = req.body.room.toString()
       const flag = req.body.flag
@@ -107,7 +107,7 @@ const setup = () => {
     }
   })
 
-  app.get('/mask', function (req, res) {
+  app.get('/api/mask', function (req, res) {
     if (req.query.room != undefined) {
       const room = req.query.room.toString()
       if (maskMap.has(room)) {
@@ -120,7 +120,7 @@ const setup = () => {
     }
   })
 
-  app.get('/content', function (req, res) {
+  app.get('/api/content', function (req, res) {
     //generate team by role
     //example:
     // [
