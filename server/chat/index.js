@@ -81,7 +81,10 @@ const onJoinRequested = ({ io, socket, maskMap, contentMap }) => {
   const user = socket.user
   logger.info({ user, event })
   if (user && user.room && user.role && maskMap.has(user.room.toString()) && contentMap.has(user.room.toString())) {
+<<<<<<< HEAD
     socket.join(user.room.toString())
+=======
+>>>>>>> master
     return socket.emit(joinRequested, {
       'room': user.room,
       'role': user.role,
@@ -110,6 +113,10 @@ const onClickWrongBox = ({ io, socket, data }) => {
       'team': team
     })
   }
+<<<<<<< HEAD
+=======
+  return socket.emit(joinRequested, { 'joined': false })
+>>>>>>> master
 }
 
 const onDisconnect = ({ io, socket }) => {
