@@ -39,7 +39,8 @@ const onReloadContent = ({ io, socket, data, contentMap, getContent }) => {
   logger.info({ content, event, user })
   return io.sockets.to(room.toString()).emit(reloadContent, {
     'content': content,
-    'room': room
+    'room': room,
+    'operable':true
   })
 }
 
@@ -53,14 +54,15 @@ const onResetMask = ({ io, socket, data, maskMap }) => {
   logger.info({ playerMask, event, user })
   return io.sockets.to(room.toString()).emit(resetMask, {
     'mask': playerMask,
-    'room': room
+    'room': room,
+    'operable':true
   })
 }
 
 const onEnterRoom = ({ io, socket, data, maskMap }) => {
   const event = enterRoom
   const { room, role, team } = data
-  const user = { 'room': room, 'role': role, 'team': team }
+  const user = { 'room': room, 'role': role, 'team': team, 'operable': true }
   socket.user = user
   socket.request.session.user = user
   socket.request.session.save() // we have to do this explicitly
@@ -86,7 +88,8 @@ const onJoinRequested = ({ io, socket, maskMap, contentMap }) => {
       'team': user.team,
       'content': contentMap.get(user.room.toString()),
       'mask': maskMap.get(user.room.toString()).mask,
-      'joined': true
+      'joined': true,
+      'operable': user.operable
     })
   }
   return socket.emit(joinRequested, { 'joined': false })
@@ -95,6 +98,10 @@ const onJoinRequested = ({ io, socket, maskMap, contentMap }) => {
 const onClickWrongBox = ({ io, socket, data }) => {
   const event = clickWrongBox
   const user = socket.user
+  user.operable = false
+  socket.request.session.user = user
+  socket.request.session.save() // we have to do this explicitly
+
   const { room, team } = data
   logger.info({ room, team, event })
   if (user && user.room && room == user.room) {
