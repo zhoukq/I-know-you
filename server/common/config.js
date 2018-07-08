@@ -1,9 +1,5 @@
 const port = 3000
-<<<<<<< HEAD
-const host = '192.168.1.103'
-=======
 const host = '0.0.0.0'
->>>>>>> master
 
 // makes an object of the form {userJoined: 'userJoined'}
 const messageTypes = [

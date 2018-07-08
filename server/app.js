@@ -72,11 +72,7 @@ const setup = () => {
   })
 
   // for serving the client
-<<<<<<< HEAD
-  app.use(express.static('../I-know-you-web/output'))
-=======
   app.use(express.static('../client/output'))
->>>>>>> master
 
   app.use((err, req, res, next) => {
     logger.error({ err })
